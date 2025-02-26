@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Bootstrap con jQuery</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery (Desde CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Estilos personalizados -->
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Mi Proyecto</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Botones con color naranja -->
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#" onclick="nuevoTitulo()">Título</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#" onclick="nuevoParrafo()">Párrafo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#" onclick="nuevoEnlace()">Enlace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#" onclick="nuevoImagen()">Imagen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="#" onclick="imprimir()">Imprimir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <header class="text-center p-4">
+        <div class="container">
+            <h1 class="text-white">Bienvenido</h1>
+            <h2 class="text-secondary">Plantilla Bootstrap + jQuery</h2>
+        </div>
+    </header>
+
+    <!-- Sección interactiva -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="mt-4 p-5 bg-primary text-white rounded">
+                    <h2 class="text-center">Crea tu página de contenido</h2>
+                </div>
+                <div class="row mt-3">
+                    <div id="contenido">
+                        <!-- Aquí se añadirá el contenido dinámico -->
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <textarea id="texto" rows="4" class="form-control" placeholder="Escribe un párrafo..."></textarea>
+                </div>
+                <div class="row mt-3">
+                    <input type="text" id="enlaceTexto" class="form-control" placeholder="Texto del enlace">
+                    <input type="text" id="enlaceURL" class="form-control mt-2" placeholder="URL del enlace">
+                </div>
+                <div class="row mt-3">
+                    <input type="file" id="imagen" class="form-control" accept="image/*">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="py-4 bg-dark text-white text-center">
+        <p>© 2024 Mi Proyecto Bootstrap + jQuery</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Código JavaScript para funcionalidades -->
+    <script>
+        // Función para agregar un Título
+        function nuevoTitulo() {
+            var titulo = prompt("Ingresa el título:");
+            if (titulo) {
+                var contenidoDiv = document.getElementById("contenido");
+                var nuevoTitulo = document.createElement("h3");
+                nuevoTitulo.textContent = titulo;
+                nuevoTitulo.classList.add("text-center", "text-white");
+                contenidoDiv.appendChild(nuevoTitulo);
+            }
+        }
+
+        // Función para agregar un Párrafo
+        function nuevoParrafo() {
+            var parrafo = document.getElementById("texto").value;
+            if (parrafo) {
+                var contenidoDiv = document.getElementById("contenido");
+                var nuevoParrafo = document.createElement("p");
+                nuevoParrafo.textContent = parrafo;
+                nuevoParrafo.classList.add("text-white");
+                contenidoDiv.appendChild(nuevoParrafo);
+            } else {
+                alert("Por favor, escribe un párrafo primero.");
+            }
+        }
+
+        // Función para agregar un Enlace
+        function nuevoEnlace() {
+            var enlaceTexto = document.getElementById("enlaceTexto").value;
+            var enlaceURL = document.getElementById("enlaceURL").value;
+            if (enlaceTexto && enlaceURL) {
+                var contenidoDiv = document.getElementById("contenido");
+                var nuevoEnlace = document.createElement("a");
+                nuevoEnlace.textContent = enlaceTexto;
+                nuevoEnlace.href = enlaceURL;
+                nuevoEnlace.classList.add("text-white");
+                nuevoEnlace.target = "_blank";  // Abrir en nueva pestaña
+                contenidoDiv.appendChild(nuevoEnlace);
+                contenidoDiv.appendChild(document.createElement("br")); // Salto de línea
+            } else {
+                alert("Por favor, ingresa tanto el texto del enlace como la URL.");
+            }
+        }
+
+        // Función para agregar una Imagen
+        function nuevoImagen() {
+            var input = document.getElementById("imagen");
+            var archivo = input.files[0];
+            if (archivo) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var contenidoDiv = document.getElementById("contenido");
+                    var imagen = document.createElement("img");
+                    imagen.src = e.target.result;
+                    imagen.classList.add("img-fluid", "my-3");
+                    contenidoDiv.appendChild(imagen);
+                };
+                reader.readAsDataURL(archivo);
+            } else {
+                alert("Por favor, selecciona una imagen.");
+            }
+        }
+
+        // Función para imprimir el contenido
+        function imprimir() {
+    var contenido = document.getElementById("contenido").innerHTML;  // Obtén el contenido dinámico
+    var ventanaImpresion = window.open('', '', 'height=500,width=800');  // Crea una nueva ventana
+
+    // Escribir el HTML para la ventana de impresión
+    ventanaImpresion.document.write('<html><head><title>Imprimir</title>');
+    
+    // Incluir los estilos de Bootstrap y tus estilos personalizados
+    ventanaImpresion.document.write('<link href="css/bootstrap.min.css" rel="stylesheet">');
+    ventanaImpresion.document.write('<link href="css/styles.css" rel="stylesheet">');
+    
+    ventanaImpresion.document.write('</head><body>');
+    ventanaImpresion.document.write(contenido);  // Escribe el contenido en la nueva ventana
+    ventanaImpresion.document.write('</body></html>');
+    
+    ventanaImpresion.document.close();
+    ventanaImpresion.print();  // Llama al método de impresión
+}
+
+    </script>
+
+</body>
+</html>
